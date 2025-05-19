@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Sample data
+# using the populated data for trying the API
+
 items = [
     {"id": 1, "name": "Item One"},
     {"id": 2, "name": "Item Two"},
@@ -19,12 +20,17 @@ items = [
 @app.route('/')
 def welcome():
     return "Welcome to the Flask API!"
-# GET all items
+
+# use GET 
+# this gives all the items
+
 @app.route('/items', methods=['GET'])
 def get_items():
     return jsonify(items), 200
 
-# GET single item by id
+# use GET 
+# this gives item of the given id 
+
 @app.route('/items/<int:item_id>', methods=['GET'])
 def get_item(item_id):
     item = next((item for item in items if item["id"] == item_id), None)
@@ -32,7 +38,10 @@ def get_item(item_id):
         return jsonify(item), 200
     return jsonify({"error": "Item not found"}), 404
 
-# POST create new item
+# use POST
+# this creates a new item and also returns/displays it 
+# should use the JSON to add
+
 @app.route('/items', methods=['POST'])
 def create_item():
     data = request.get_json()
@@ -43,7 +52,10 @@ def create_item():
     items.append(new_item)
     return jsonify(new_item), 201
 
-# PUT update item by id
+# use PUT
+# this updates the item of the given id
+# should use the JSON to update
+
 @app.route('/items/<int:item_id>', methods=['PUT'])
 def update_item(item_id):
     data = request.get_json()
@@ -53,7 +65,10 @@ def update_item(item_id):
             return jsonify(item), 200
     return jsonify({"error": "Item not found"}), 404
 
-# DELETE item by id
+# use DELETE
+# this deletes the item of the given id
+# just give the id number to the URL
+
 @app.route('/items/<int:item_id>', methods=['DELETE'])
 def delete_item(item_id):
     global items
