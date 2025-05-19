@@ -5,7 +5,7 @@ const port = 3000;
 
 app.use(express.json());
 
-// In-memory data store
+// same pre populated data for API testing
 let items = [
     { id: 1, name: 'Item One' },
     { id: 2, name: 'Item Two' },
@@ -19,7 +19,8 @@ let items = [
     { id: 10, name: 'Item Ten' }
 ];
 
-// GET all items
+// GET just for testing if its UP or DOWN
+
 app.get('/', (req, res) => {
     res.send('Sike ankoooooo');
 });
@@ -28,14 +29,17 @@ app.get('/items', (req, res) => {
     res.json(items);
 });
 
-// GET a single item by id
+// use GET
+// fetching a single item by ID passing it to URL
 app.get('/items/:id', (req, res) => {
     const item = items.find(i => i.id === parseInt(req.params.id));
     if (!item) return res.status(404).send('Item not found');
     res.json(item);
 });
 
-// POST create a new item
+// use POST
+// add the new item given in the request body as [JSON] 
+// and return the created item
 app.post('/items', (req, res) => {
     const newItem = {
         id: items.length + 1,
@@ -45,7 +49,8 @@ app.post('/items', (req, res) => {
     res.status(201).json(newItem);
 });
 
-// PUT update an existing item
+// use PUT
+// update an existing item by ID in the URL
 app.put('/items/:id', (req, res) => {
     const item = items.find(i => i.id === parseInt(req.params.id));
     if (!item) return res.status(404).send('Item not found');
@@ -53,7 +58,8 @@ app.put('/items/:id', (req, res) => {
     res.json(item);
 });
 
-// DELETE an item
+// use DELETE
+// delete an existing item by ID in the URL
 app.delete('/items/:id', (req, res) => {
     const index = items.findIndex(i => i.id === parseInt(req.params.id));
     if (index === -1) return res.status(404).send('Item not found');
